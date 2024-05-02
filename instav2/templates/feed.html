@@ -1,0 +1,179 @@
+{% load static %}
+<html>
+    <head>
+        <title>Instagram</title>
+        <meta charset="UTF-8">
+        <!-- <link rel="stylesheet" type="text/css" href="{% static '/home_page/style.css' %}"> -->
+        <script>
+            function triggerFileInput() {
+                document.getElementById('file-input').click();
+                document.getElementById('submit').click();
+            }
+
+            function toggleComments() {
+                var x = document.getElementById("comments_div");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                }      
+                else {
+                    x.style.display = "none";
+                }
+            }
+
+            function eraseText(){
+                document.getElementById("textbox").value = "";
+                document.getElementById("Form").submit();
+            }
+        </script>
+        <style>
+            .comments_div{
+                float: left;
+                background-color: white;
+                width: 500px;
+                height: fit-content;
+                border-top:1px solid black ;
+                border-radius: 5px;
+                /* display:none; */
+            }
+
+            .comment_btn{
+                float: left;
+                margin-top: 20px;
+                margin-left: 8px;
+                text-decoration: underline;
+                background-color: inherit;
+                background-color: none;
+                border: none;
+            }
+
+            .cmnt{
+                width: 100%;
+                border: none;
+                border-top: 1px solid grey;
+                border-radius: 5px;
+            }
+
+            .cmnt:focus{
+                box-shadow: none;
+                outline-style: none;
+            }
+
+            .posts{
+                position: relative;
+                width: 1000px;
+                padding-top: 400px;
+                padding-left: 600px;
+                object-fit: contain;
+            }
+
+            .post_cover{
+                display: inline-block;
+                padding: 5px;
+            }
+
+            .header{
+                width: 350px;
+                height: 100vh ;
+                border-right: 1px solid rgb(185, 185, 185); 
+                float: left;
+            }
+
+            img{
+            width: 200px;
+            object-fit: contain;
+            }
+            
+            .post_btn, .feed_btn{
+                color:black;
+                background-color: white;
+                border: none;
+                padding: 10px 0px 10px 0px;
+                border-radius: 5px;
+                margin-top: 15px;
+                text-align: left;
+                font-size: larger;
+                width: 100%;
+                text-indent: 10px;
+            }
+
+            .post_btn:hover ,.feed_btn:hover{
+                background-color: rgb(112, 112, 112);
+            }
+
+            .main_feed{
+                margin-left: 800px;
+                width: 500px;
+                height: fit-content;
+                border-left:1px solid grey;
+                border-right: 1px solid grey;
+            }
+
+            .post_div{
+                width: 100%;
+                align-content: center;
+                margin: 5px 0px 0px 0px;
+            }
+
+            .nametag_div{
+                width: 100%;
+                height: 50px;
+                border-top:1px solid black;
+                border-bottom:1px solid black;
+            }
+            
+            .postimg{
+                width:100%;
+                height: fit-content;
+                object-fit: contain;
+            }
+        </style>
+    </head>
+    <body>
+        <nav style="display: block; position: fixed;">
+        <div class="header">
+            <img src="https://i0.wp.com/www.dafontfree.io/wp-content/uploads/2020/12/instagram-new.png?resize=1100%2C750&ssl=1" style="object-fit: contain;">
+            <br><br>
+            <a href="{% url 'newpost' pk=x.id %}"><button type="submit" class="post_btn">Post</button></a>
+            <a href="{% url 'home' pk=x.id %}"><button class="feed_btn">Profile</button></a>
+            <a href="{% url 'feed' pk=x.id %}"><button class="feed_btn">Feed</button></a>
+            <a href="{% url 'del' pk=x.id %}"><button type="submit" class="post_btn">Delete Profile</button></a>
+            <a href="{% url 'logout' %}"><button type="submit" class="post_btn">Logout</button></a>
+        </div>
+        </nav>
+        <div class="main_feed" style="padding-bottom: 100px;">
+            {% for post in posts %}
+            {% if post.user != x.username %}
+                <div class="post_div" style="border-bottom:5px;">
+                    <div class="nametag_div"> 
+                    <p style="padding-left: 20px;"><b>{{post.username}}</b></p>
+                    </div>
+                    <img class="postimg" src="{{post.photo.url}}">
+                    <div class="likes">
+                           <span><a href="{% url 'like_post' post_id=post.id %}" name="likes_id" value="{{post.id}}"><img style="width: 30px; padding: 15px 5px 0px 10px ;float: left;" src="{% static '/like.png' %}" alt=""></a>
+                            <h4 style="float: left; padding:0px 10px 0px 5px; ">{{ post.number_of_likes }}</h4></span>
+                        </form>
+                        <h5 style="float:left; padding-left: 10px; margin-bottom: 10px; text-align: center;">{{post.caption}}</h5>
+                    </div>  
+                </div>
+                    <h3 class="comment_btn">Comments</h3>
+                    <div class="comments_div">
+                       <p style="padding-left:10px ;padding-top: 0px;">
+                        {% if not post.comments.all %}
+                            No Comments
+                        {% else %}
+                            {% for comment in post.comments.all %}
+                                <strong>{{comment.user}}</strong>
+                                {{ comment.text }}<br>
+                            {% endfor %}
+                        {% endif %}</p>
+                        <form method="post" id="Form" action="{% url 'comment' post_id=post.id pk=pk %}">
+                            {% csrf_token %}
+                            {{cmnt_form.as_p}}
+                            <button type="submit" class="comment_btn">Comment</button>
+                        </form>
+                    </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>   

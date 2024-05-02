@@ -1,0 +1,16 @@
+.header{
+    width: 350px;
+    height: 100%;
+    border-right: 1px solid rgb(185, 185, 185); 
+    float: left;
+}
+
+img{
+  width: 200px;
+  object-fit: contain;
+}
+
+.profile{
+  float: right;
+  color: brown;
+}

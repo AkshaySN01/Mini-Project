@@ -1,0 +1,113 @@
+{% load static %}
+<html>
+    <head>
+        <title>Instagram</title>
+        <meta charset="UTF-8">
+        <!-- <link rel="stylesheet" type="text/css" href="{% static '/home_page/style.css' %}"> -->
+        <script>
+            
+            function triggerFileInput() {
+            document.getElementById('file-input').click();
+            }
+
+        </script>
+        <style>
+            .posts{
+                width: 1000px;
+                padding-top: 400px;
+                padding-left: 600px;
+                object-fit: contain;
+            }
+
+            .post_cover{
+                display: inline-block;
+                padding: 5px 5px 5px 5px;
+                margin-left: 15px;
+            }
+
+            .header{
+                width: 350px;
+                height: 100%;
+                border-right: 1px solid rgb(185, 185, 185); 
+                float: left;
+            }
+
+            img{
+            width: 200px;
+            object-fit: contain;
+            }
+
+            .profile{
+                padding-top: 50px;
+                padding-left: 500px;
+            }
+
+            .post_btn, .feed_btn{
+                color:black;
+                background-color: white;
+                border: none;
+                padding: 10px 0px 10px 0px;
+                border-radius: 5px;
+                margin-top: 15px;
+                text-align: left;
+                font-size: larger;
+                width: 100%;
+                text-indent: 10px;
+            }
+
+            .post_btn:hover ,.feed_btn:hover{
+                background-color: rgb(112, 112, 112);
+            }
+
+            input[type="file"] {
+                display: none;
+            }
+
+            .post_img{
+                width: 300px;
+                height: 300px;
+                object-fit: cover;
+            }
+
+            .edit_btn{
+                padding: 10px 20px 10px 20px;
+                border: none;
+                margin-left: 50px;
+                margin-top: 15px;
+                background-color: rgba(204, 204, 204, 0.863);
+                border-radius: 8px;
+            }
+            .edit_btn:hover{
+                background-color:rgb(141, 141, 141);
+                font-weight: bold;
+                /* border: 1px solid black; */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://i0.wp.com/www.dafontfree.io/wp-content/uploads/2020/12/instagram-new.png?resize=1100%2C750&ssl=1" style="object-fit: contain;">
+            <br><br>
+            <a href="{% url 'newpost' pk=x.id %}"><button type="submit" class="post_btn">Post</button></a>
+            <a href="{% url 'home' pk=x.id %}"><button class="feed_btn">Profile</button></a>
+            <a href="{% url 'feed' pk=x.id %}"><button class="feed_btn">Feed</button></a>
+            <a href="{% url 'del' pk=x.id %}"><button type="submit" class="post_btn">Delete Profile</button></a>
+            <a href="{% url 'logout' %}"><button type="submit" class="post_btn">Logout</button></a>
+        </div>
+        <div class="profile">
+            <img style="float:left; border-radius: 50%; width:200px; height:200px; object-fit: contain; border: 2px solid black;" src="{{pic}}" alt="{% static '/blank.webp' %}">
+            <h1 style="float: left; padding-left: 50px;">{{x.username}}</h1>
+            <a href="{% url 'edit' pk=x.id %}"><button class="edit_btn">Edit Profile</button></a>
+        </div>
+        <div class="posts">
+            <p style="font-weight: bold; font-size: xx-large; text-align: center;border-top: 1px solid black; border-bottom: 1px solid black;">Posts</p>
+            {% for i in p %}
+            {% if i.username_id == x.id %}
+            <div class="post_cover">
+            <a href=""><img class="post_img" src="{{i.photo.url}}" alt=""></a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>

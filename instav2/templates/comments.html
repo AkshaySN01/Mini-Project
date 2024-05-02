@@ -1,0 +1,11 @@
+{% extends '/templates/feed.html' %}
+
+{% block content %}
+{% for post in posts %}
+        <form method="POST" action="{% url 'comment' post_id=post.id %}">
+            {% csrf_token %}
+            <textarea name="content"></textarea>
+            <button type="submit">Add Comment</button>
+        </form>
+{% endfor %}
+{% endblock %}

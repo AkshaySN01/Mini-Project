@@ -1,0 +1,28 @@
+{% load static %}
+<html>
+    <head>
+        <title>Instagram</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{% static '/login_page/style.css' %}">
+    </head>
+    <body style="background-image: url('{% static '/login_page/bg.jpg' %}');">
+        <div class="div">
+            <img src="https://i0.wp.com/www.dafontfree.io/wp-content/uploads/2020/12/instagram-new.png?resize=1100%2C750&ssl=1" width="300" height="200">
+            <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Phone number,username, or email" name="username"><br>
+            <input type="password" placeholder="Password" name="password">
+            <input id="btn" type="submit" value="Log In"><br><br>
+            </form>
+            <p style="color: rgb(100, 100, 100);">--------------------------OR---------------------------<br><br>
+            <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Facebook_logo_%28square%29.png/600px-Facebook_logo_%28square%29.png" width="25">
+            <img src="{% static '/login_page/Login.png' %}" width="200" style="padding-top: 2px;">
+            <p>Forgot Password?</p>
+        </div>
+        <div class="div2">
+            <P style="padding-top: 50px; width: 500px; height: 100px;">
+               <b>Don't have an account? <a href="{% url 'sign_up' %}" style="text-decoration: none;"> <span style="color:#4DB4F9;">Sign Up.</span></a></b>
+            </P>
+        </div>
+    </body>
+</html>
